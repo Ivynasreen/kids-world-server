@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
+const ObjectID = require('mongodb').ObjectID;
 require('dotenv').config()
 const port = process.env.PORT || 5200;
 
@@ -119,8 +119,9 @@ client.connect(err => {
           })
   })
 
-  app.delete('/delete/name', (req, res) =>{
-    serviceCollection.deleteOne({_id: ObjectId(req.params.id)})
+  app.delete('/deleteService/:id', (req, res) =>{
+    const id = ObjectID(req.params.id)
+    serviceCollection.findOneAndDelete({_id: id})
     .then( result => {
       res.send(result.deletedCount > 0);
     })
