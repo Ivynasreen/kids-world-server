@@ -121,15 +121,16 @@ client.connect(err => {
 
   app.delete('/deleteService/:id', (req, res) =>{
     const id = ObjectID(req.params.id)
+    console.log(id)
     serviceCollection.findOneAndDelete({_id: id})
     .then( result => {
-      res.send(result.deletedCount > 0);
+      res.send({count: result.ok});
     })
   })
  
 
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port ,  () => {
     console.log(`Example app listening at http://localhost:${port}`)
   })
